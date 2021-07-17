@@ -1,0 +1,12 @@
+version: "3.9"
+services:
+  devbox:
+    hostname: devbox
+    build: .
+    ports: 
+      - "2222:22"
+    volumes:
+      - type: bind
+        source: /var/run/docker.sock
+        target: /var/run/docker.sock
+    privileged: true
