@@ -14,7 +14,15 @@ WORKDIR /home/dev/neovim
 RUN git checkout stable
 RUN CMAKE_BUILD_TYPE=Release make -j8
 RUN make install
-RUN chown dev:dev -R /home/dev/neovim
+
+
+RUN git clone https://github.com/chrisharper/new_dotfiles /home/dev/dotfiles
+WORKDIR /home/dev/dotfiles
+RUN git submodule update --init --recursive 
+
+
+RUN chown dev:dev -R /home/dev/*
+RUN sudo -u dev /home/dev/dotfiles/install
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd","-D"]
