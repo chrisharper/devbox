@@ -9,7 +9,7 @@ RUN ssh-keygen -A
 RUN mkdir -p /run/sshd
 
 
-RUN apt-get install -y sudo git tmux docker zsh python3
+RUN apt-get install -y sudo git tmux docker.io zsh python3
 
 RUN useradd -s /bin/zsh dev
 RUN usermod -aG sudo dev
