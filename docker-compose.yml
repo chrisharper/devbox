@@ -1,8 +1,22 @@
 version: "3.9"
 services:
-  devbox:
-    hostname: devbox
-    build: .
+  fedora:
+    hostname: fedora
+    build: 
+      context: .
+      dockerfile: Dockerfile-fedora
+    ports: 
+      - "2222:22"
+    volumes:
+      - type: bind
+        source: /var/run/docker.sock
+        target: /var/run/docker.sock
+    privileged: true
+  debian:
+    hostname: debian
+    build: 
+      context: .
+      dockerfile: Dockerfile-debian
     ports: 
       - "2222:22"
     volumes:

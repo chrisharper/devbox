@@ -1,0 +1,38 @@
+FROM debian:latest
+
+RUN apt-get update
+
+RUN apt-get install -y openssh-server openssh-client
+RUN ssh-keygen -A
+
+#startup complains if not present
+RUN mkdir -p /run/sshd
+
+
+RUN apt-get install -y sudo git tmux docker zsh python3
+
+RUN useradd -s /bin/zsh dev
+RUN usermod -aG sudo dev
+RUN echo "dev:password" | chpasswd
+
+RUN apt-get install -y ninja-build gettext libtool libtool-bin autoconf automake \
+     cmake g++ pkg-config unzip curl
+
+RUN git clone https://github.com/neovim/neovim /home/dev/neovim
+WORKDIR /home/dev/neovim
+RUN git checkout stable
+RUN CMAKE_BUILD_TYPE=Release make -j8
+RUN make install
+
+
+
+RUN git clone https://github.com/chrisharper/dotfiles /home/dev/dotfiles
+WORKDIR /home/dev/dotfiles
+RUN git submodule update --init --recursive 
+RUN git remote set-url origin ssh://git@github.com/chrisharper/dotfiles
+RUN chown dev:dev -R /home/dev
+RUN sudo -u dev /home/dev/dotfiles/install
+
+
+EXPOSE 22
+CMD ["/usr/sbin/sshd","-D"]
