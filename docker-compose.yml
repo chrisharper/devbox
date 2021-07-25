@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: Dockerfile-fedora
     ports: 
-      - "2222:22"
+      - "3333:22"
     volumes:
       - type: bind
         source: /var/run/docker.sock
