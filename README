@@ -1,0 +1,2 @@
+docker import ArchLinuxARM-aarch64-latest.tar.gz archlinuxarm:latest  
+
