@@ -9,7 +9,6 @@ RUN useradd -s /bin/zsh dev
 RUN usermod -aG wheel dev
 RUN echo "dev:password" | chpasswd
 
-#neovim https://bugzilla.redhat.com/show_bug.cgi?id=1983288
 RUN dnf -y install ninja-build libtool autoconf automake cmake gcc gcc-c++ make pkgconfig unzip patch gettext curl
 RUN git clone https://github.com/neovim/neovim /home/dev/neovim
 WORKDIR /home/dev/neovim
