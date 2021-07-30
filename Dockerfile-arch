@@ -1,0 +1,26 @@
+FROM archlinuxarm:latest
+
+RUN pacman-key --init
+RUN pacman-key --populate archlinuxarm
+RUN ssh-keygen -A 
+RUN echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
+RUN echo "LANG=en_US.UTF-8" >> /etc/locale.conf
+RUN locale-gen
+
+
+RUN pacman -Syu --noconfirm  sudo git tmux docker zsh neovim python3
+
+RUN useradd -s /bin/zsh dev
+RUN echo "dev:password" | chpasswd
+RUN echo "dev    ALL=(ALL) ALL" >> /etc/sudoers 
+RUN echo "root   ALL=(ALL) ALL" >> /etc/sudoers
+
+RUN git clone https://github.com/chrisharper/dotfiles /home/dev/dotfiles
+WORKDIR /home/dev/dotfiles
+RUN git submodule update --init --recursive 
+RUN git remote set-url origin ssh://git@github.com/chrisharper/dotfiles
+RUN chown dev:dev -R /home/dev
+RUN sudo -u dev /home/dev/dotfiles/install
+
+EXPOSE 22
+CMD ["/usr/sbin/sshd","-D"]

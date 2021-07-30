@@ -1,17 +1,5 @@
 version: "3.9"
 services:
-  fedora:
-    hostname: fedora
-    build: 
-      context: .
-      dockerfile: Dockerfile-fedora
-    ports: 
-      - "3333:22"
-    volumes:
-      - type: bind
-        source: /var/run/docker.sock
-        target: /var/run/docker.sock
-    privileged: true
   debian:
     hostname: debian
     build: 
@@ -24,3 +12,28 @@ services:
         source: /var/run/docker.sock
         target: /var/run/docker.sock
     privileged: true
+  fedora:
+    hostname: fedora
+    build: 
+      context: .
+      dockerfile: Dockerfile-fedora
+    ports: 
+      - "3333:22"
+    volumes:
+      - type: bind
+        source: /var/run/docker.sock
+        target: /var/run/docker.sock
+    privileged: true
+  arch:
+    hostname: arch
+    build: 
+      context: .
+      dockerfile: Dockerfile-arch
+    ports: 
+      - "4444:22"
+    volumes:
+      - type: bind
+        source: /var/run/docker.sock
+        target: /var/run/docker.sock
+    privileged: true
+ 
